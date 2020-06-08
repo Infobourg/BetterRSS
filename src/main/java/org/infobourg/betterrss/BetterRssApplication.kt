@@ -1,13 +1,14 @@
-package org.infobourg.betterrss;
+package org.infobourg.betterrss
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-public class BetterRssApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(BetterRssApplication.class, args);
+open class BetterRssApplication {
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            SpringApplication.run(BetterRssApplication::class.java, *args)
+        }
     }
-
 }

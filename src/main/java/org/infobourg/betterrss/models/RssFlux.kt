@@ -11,6 +11,7 @@ data class RssFlux(
         var id: String="",
         var idWorkspace: String="",
         var idChannel: String="",
+        var idMessage: String="",
         var idThread: String="",
         var link: String="",
         var lastUpdate: LocalDateTime= LocalDateTime.now()

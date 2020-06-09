@@ -20,5 +20,9 @@ open class BetterRssApplication (private val rssFluxService: RssFluxService) : A
         for(rss in this.rssFluxService.findAll()) {
             println(rss);
         }
+
+        for(rss in this.rssFluxService.findByIdChannel("12354644458")) {
+            println(rss);
+        }
     }
 }

@@ -28,6 +28,7 @@ dependencies {
     }
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 }
 
 test {

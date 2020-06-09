@@ -29,6 +29,9 @@ dependencies {
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    implementation("com.slack.api:bolt:1.0.8")
+    implementation("com.slack.api:bolt-servlet:1.0.8")
 }
 
 test {

@@ -10,6 +10,5 @@ class RssFeedService(var rssFeedRepository: RssFeedRepository){
     fun findAll(): List<RssFeed> = rssFeedRepository.findAll()
     fun findByIdWorkspace(idWorkspace: String): List<RssFeed> = rssFeedRepository.findByIdWorkspace(idWorkspace)
     fun findByIdChannel(idChannel: String): List<RssFeed> = rssFeedRepository.findByIdChannel(idChannel)
-    fun findByIdMessage(idMessage: String): List<RssFeed> = rssFeedRepository.findByIdMessage(idMessage)
     fun findByIdThread(idThread: String): List<RssFeed> = rssFeedRepository.findByIdThread(idThread)
 }

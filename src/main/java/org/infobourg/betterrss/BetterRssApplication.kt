@@ -1,6 +1,6 @@
 package org.infobourg.betterrss
 
-import org.infobourg.betterrss.services.RssFluxService
+import org.infobourg.betterrss.services.RssFeedService
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.SpringApplication
@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 
 
 @SpringBootApplication
-open class BetterRssApplication (private val rssFluxService: RssFluxService) : ApplicationRunner{
+open class BetterRssApplication (private val rssFeedService: RssFeedService) : ApplicationRunner{
     companion object {
 
         @JvmStatic
@@ -17,11 +17,11 @@ open class BetterRssApplication (private val rssFluxService: RssFluxService) : A
         }
     }
     override fun run(args: ApplicationArguments?) {
-        for(rss in this.rssFluxService.findAll()) {
+        for(rss in this.rssFeedService.findAll()) {
             println(rss);
         }
 
-        for(rss in this.rssFluxService.findByIdChannel("12354644458")) {
+        for(rss in this.rssFeedService.findByIdChannel("12354644458")) {
             println(rss);
         }
     }

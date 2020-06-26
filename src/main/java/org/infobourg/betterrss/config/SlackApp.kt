@@ -10,19 +10,20 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 open class SlackApp {
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     open fun initSlackApp(
-            slashCommands: List<SlashCommand> = emptyList(),
-            globalShortcuts: List<GlobalShortcut> = emptyList(),
-            messageShortcuts: List<MessageShortcut> = emptyList(),
-            viewSubmissions: List<ViewSubmission> = emptyList()
+            slashCommands: List<SlashCommand>?,
+            globalShortcuts: List<GlobalShortcut>?,
+            messageShortcuts: List<MessageShortcut>?,
+            viewSubmissions: List<ViewSubmission>?
     ): App {
         val app = App()
 
-        slashCommands.forEach { app.command(it.callback, it.handler) }
-        globalShortcuts.forEach { app.globalShortcut(it.callback, it.handler) }
-        messageShortcuts.forEach { app.messageShortcut(it.callback, it.handler) }
-        viewSubmissions.forEach {
+        slashCommands?.forEach { app.command(it.callback, it.handler) }
+        globalShortcuts?.forEach { app.globalShortcut(it.callback, it.handler) }
+        messageShortcuts?.forEach { app.messageShortcut(it.callback, it.handler) }
+        viewSubmissions?.forEach {
             app.viewSubmission(it.callback, it.onSubmit)
             if (it.onClose != null) { app.viewClosed(it.callback, it.onClose) }
         }

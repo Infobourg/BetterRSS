@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan
 
 
 @SpringBootApplication
+@ServletComponentScan
 open class BetterRssApplication (private val rssFeedService: RssFeedService) : ApplicationRunner {
     companion object {
 

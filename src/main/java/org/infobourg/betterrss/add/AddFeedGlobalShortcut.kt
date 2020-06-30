@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class AddFeedGlobalShortcut : GlobalShortcut(
-        callbackId = "global_shortcut_add_feed",
+        callbackId = AddFeed.GlobalShortcutId,
         handler = { _, context ->
             val view = context.client().viewsOpen { request ->
                 request.view(addFeedModal())
@@ -21,7 +21,7 @@ class AddFeedGlobalShortcut : GlobalShortcut(
 
 fun addFeedModal(): View {
     return view {
-        callbackId = "modal_add_feed"
+        callbackId = AddFeed.Modal.Id
         type = "modal"
         notifyOnClose = true
         clearOnClose = true
@@ -36,9 +36,9 @@ fun addFeedModal(): View {
         }
         blocks {
             input {
-                blockId = "block_feed_url"
+                blockId = AddFeed.Modal.Url.BlockId
                 element = plainTextInput {
-                    actionId = "action_feed_url"
+                    actionId = AddFeed.Modal.Url.ActionId
                     placeholder = plainText { text = "https://…" }
                 }
                 label = plainText {
@@ -46,11 +46,12 @@ fun addFeedModal(): View {
                 }
             }
             input {
+                blockId = AddFeed.Modal.Conversation.BlockId
                 label = plainText {
                     text = "Choose the channel to post new entries"
                 }
                 element = conversationsSelect {
-                    actionId = "action_conversation_select"
+                    actionId = AddFeed.Modal.Conversation.ActionId
                     defaultToCurrentConversation = true
                 }
             }

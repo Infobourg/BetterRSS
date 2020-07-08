@@ -1,6 +1,7 @@
 package org.infobourg.betterrss.config
 
 import com.slack.api.bolt.App
+import kotlinx.coroutines.runBlocking
 import org.infobourg.betterrss.slack.GlobalShortcut
 import org.infobourg.betterrss.slack.MessageShortcut
 import org.infobourg.betterrss.slack.SlashCommand
@@ -24,7 +25,9 @@ open class SlackApp {
         globalShortcuts?.forEach { app.globalShortcut(it.callback, it.handler) }
         messageShortcuts?.forEach { app.messageShortcut(it.callback, it.handler) }
         viewSubmissions?.forEach {
-            app.viewSubmission(it.callback, it.onSubmit)
+            app.viewSubmission(it.callback) { request, context ->
+                runBlocking { it.onSubmit(request, context) }
+            }
             if (it.onClose != null) { app.viewClosed(it.callback, it.onClose) }
         }
 

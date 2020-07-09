@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class RssFeedService(var rssFeedRepository: RssFeedRepository){
+class RssFeedService(private var rssFeedRepository: RssFeedRepository){
     fun findAll(): List<RssFeed> = rssFeedRepository.findAll()
     fun findByIdWorkspace(idWorkspace: String): List<RssFeed> = rssFeedRepository.findByIdWorkspace(idWorkspace)
     fun findByIdChannel(idChannel: String): List<RssFeed> = rssFeedRepository.findByIdChannel(idChannel)
     fun findByIdThread(idThread: String): List<RssFeed> = rssFeedRepository.findByIdThread(idThread)
+    fun removeByIdRssFeed(idRssFeed: String) = rssFeedRepository.deleteById(idRssFeed)
+    fun removeByLink(idRssFeed: String) = rssFeedRepository.deleteByLink(idRssFeed)
 }

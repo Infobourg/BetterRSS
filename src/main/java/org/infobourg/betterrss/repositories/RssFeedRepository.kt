@@ -8,4 +8,5 @@ interface RssFeedRepository : MongoRepository<RssFeed, String> {
     fun findByIdWorkspace(idWorkspace: String): List<RssFeed>
     fun findByIdThread(idThread: String): List<RssFeed>
     fun deleteByLink(link: String)
+    fun existsByLink(link: String): Boolean
 }

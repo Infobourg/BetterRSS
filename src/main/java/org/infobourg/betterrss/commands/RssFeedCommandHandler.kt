@@ -64,9 +64,13 @@ class RssFeedCommandHandler(private val rssFeedService: RssFeedService) : Comman
             if(ObjectId.isValid(arg)) {
                 println("$arg is valid")
                 // If is an id
+                if(!rssFeedService.existsById(arg))
+                    return  {ctx -> ctx.ack("No Rss Feed with this id")}
                 rssFeedService.removeByIdRssFeed((arg))
             } else {
                 // Looking or url
+                if(!rssFeedService.existsByLink(arg))
+                    return  {ctx -> ctx.ack("No Rss Feed with this link")}
                 rssFeedService.removeByLink(arg)
             }
             return { context -> context.ack("Rss Feed removed")}

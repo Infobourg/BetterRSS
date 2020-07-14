@@ -1,5 +1,6 @@
 package org.infobourg.betterrss.add
 
+import com.rometools.rome.feed.synd.SyndFeed
 import com.rometools.rome.io.FeedException
 import com.rometools.rome.io.SyndFeedInput
 import com.rometools.rome.io.XmlReader
@@ -18,17 +19,20 @@ open class RssParser(
         private val client: HttpClient = HttpClient(),
         private val input: SyndFeedInput = SyndFeedInput()
 ) {
-    suspend fun isRssFeed(url: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun isRssFeed(url: String): Boolean {
+        return parseRssFeed(url) != null
+    }
+
+    suspend fun parseRssFeed(url: String): SyndFeed? = withContext(Dispatchers.IO) {
         try {
             val body = client.get<HttpResponse>(url).receive<InputStream>()
-            input.build(XmlReader(body))
-            return@withContext true
+            return@withContext input.build(XmlReader(body))
         } catch (e: IOException) {
-            return@withContext false
+            return@withContext null
         } catch (e: IllegalArgumentException) {
-            return@withContext false
+            return@withContext null
         } catch (e: FeedException) {
-            return@withContext false
+            return@withContext null
         }
     }
 

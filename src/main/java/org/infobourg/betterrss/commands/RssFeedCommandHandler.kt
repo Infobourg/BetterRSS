@@ -3,11 +3,14 @@ package org.infobourg.betterrss.commands
 import com.slack.api.bolt.context.builtin.SlashCommandContext
 import com.slack.api.bolt.request.builtin.SlashCommandRequest
 import com.slack.api.bolt.response.Response
-import com.slack.api.model.block.Blocks.*
-import com.slack.api.model.block.composition.BlockCompositions.*
-import com.slack.api.model.block.element.BlockElements.*
+import com.slack.api.model.block.LayoutBlock
 import org.bson.types.ObjectId
+import org.infobourg.betterrss.models.RssFeed
 import org.infobourg.betterrss.services.RssFeedService
+import org.infobourg.betterrss.slack.block
+import org.infobourg.betterrss.slack.option
+import org.infobourg.betterrss.slack.plainText
+import org.infobourg.betterrss.slack.staticSelect
 import org.springframework.stereotype.Component
 
 typealias  Handle = (args: List<String>, request: SlashCommandRequest) -> (SlashCommandContext) -> Response
@@ -26,36 +29,18 @@ class RssFeedCommandHandler(private val rssFeedService: RssFeedService) : Comman
     private val list: Handle = list@{ _: List<String>, _: SlashCommandRequest ->
         val rssFeed = rssFeedService.findAll()
         return@list { context: SlashCommandContext ->
-            context.ack(asBlocks(
-                    section { s -> s.text(plainText("List of rss flux")) },
-                    section { s -> s.text(markdownText(rssFeed.joinToString("\n") { rss -> "- ${rss.id} : ${rss.link}" })) }
-            ))
+            context.ack(block {
+                section { text = plainText { text = "List of rss flux" } }
+                section { text = plainText { text = rssFeed.joinToString("\n") { rss -> "- ${rss.id} : ${rss.link}" } } }
+            })
         }
     }
 
     private val remove: Handle = remove@{ args: List<String>, _: SlashCommandRequest ->
         if (args.size < 2) {
-            val rssFeed = rssFeedService.findAll()
+            val rssFeeds = rssFeedService.findAll()
             return@remove { context ->
-                context.ack(asBlocks(
-                        section { section ->
-                            section
-                                    .text(markdownText("Choose the rss feed to remove"))
-                                    .accessory(
-                                            staticSelect { staticSelect ->
-                                                staticSelect
-                                                        .placeholder(plainText { pt -> pt.text("Choose feed").emoji(true) })
-                                                        .options(rssFeed.map { rss ->
-                                                            option { option ->
-                                                                option
-                                                                        .text(plainText(rss.link))
-                                                                        .value(rss.id)
-                                                            }
-                                                        })
-                                            }
-                                    )
-                        }
-                ))
+                context.ack(removeSelectionBlock(rssFeeds))
             }
         } else {
             val arg = args[1];
@@ -83,6 +68,26 @@ class RssFeedCommandHandler(private val rssFeedService: RssFeedService) : Comman
             CommandHandle(commandType = CommandEnum.LIST, handle = this.list),
             CommandHandle(commandType = CommandEnum.REMOVE, handle = this.remove)
     )
+
+    private fun removeSelectionBlock(rssFeeds: List<RssFeed>): List<LayoutBlock> {
+        return block {
+            section {
+                text = plainText { text = "Choose the rss feed to remove" }
+                accessory = staticSelect {
+                    placeholder = plainText {
+                        text = "Choose feed"
+                    }
+                    options = rssFeeds.map { rss ->
+                        option {
+                            text = plainText { text = rss.link }
+                            value = rss.id
+                        }
+                    }
+
+                }
+            }
+        }
+    }
 }
 
 data class CommandHandle(

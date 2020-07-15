@@ -1,3 +1,4 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -6,6 +7,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
+    id("com.diffplug.spotless") version "5.1.0"
 }
 
 group = "org.infobourg"
@@ -44,11 +46,20 @@ dependencies {
 }
 
 tasks.withType<Test> {
-  useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 tasks.withType<KotlinCompile> {
-  kotlinOptions {
-    jvmTarget = "11"
-  }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+configure<SpotlessExtension> {
+    kotlin {
+        ktlint("0.37.2")
+    }
+    kotlinGradle {
+        ktlint()
+    }
 }

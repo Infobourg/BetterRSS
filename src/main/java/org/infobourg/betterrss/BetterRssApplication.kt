@@ -7,10 +7,9 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.web.servlet.ServletComponentScan
 
-
 @SpringBootApplication
 @ServletComponentScan
-open class BetterRssApplication (private val rssFeedService: RssFeedService) : ApplicationRunner {
+open class BetterRssApplication(private val rssFeedService: RssFeedService) : ApplicationRunner {
     companion object {
 
         @JvmStatic
@@ -19,12 +18,12 @@ open class BetterRssApplication (private val rssFeedService: RssFeedService) : A
         }
     }
     override fun run(args: ApplicationArguments?) {
-        for(rss in this.rssFeedService.findAll()) {
-            println(rss);
+        for (rss in this.rssFeedService.findAll()) {
+            println(rss)
         }
 
-        for(rss in this.rssFeedService.findByIdChannel("12354644458")) {
-            println(rss);
+        for (rss in this.rssFeedService.findByIdChannel("12354644458")) {
+            println(rss)
         }
     }
 }

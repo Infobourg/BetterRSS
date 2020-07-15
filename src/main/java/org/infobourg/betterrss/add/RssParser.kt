@@ -15,8 +15,8 @@ import java.io.InputStream
 
 @Component
 open class RssParser(
-        private val client: HttpClient = HttpClient(),
-        private val input: SyndFeedInput = SyndFeedInput()
+    private val client: HttpClient = HttpClient(),
+    private val input: SyndFeedInput = SyndFeedInput()
 ) {
     suspend fun isRssFeed(url: String): Boolean = withContext(Dispatchers.IO) {
         try {
@@ -31,5 +31,4 @@ open class RssParser(
             return@withContext false
         }
     }
-
 }

@@ -30,7 +30,6 @@ fun View.close(builder: ViewClose.() -> Unit) {
 }
 
 fun View.blocks(builder: BlockBuilder.() -> Unit) {
-
     this.blocks = BlockBuilder().apply(builder).layouts
 }
 

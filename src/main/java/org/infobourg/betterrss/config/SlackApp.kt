@@ -14,10 +14,10 @@ open class SlackApp {
     @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     open fun initSlackApp(
-            slashCommands: List<SlashCommand>?,
-            globalShortcuts: List<GlobalShortcut>?,
-            messageShortcuts: List<MessageShortcut>?,
-            viewSubmissions: List<ViewSubmission>?
+        slashCommands: List<SlashCommand>?,
+        globalShortcuts: List<GlobalShortcut>?,
+        messageShortcuts: List<MessageShortcut>?,
+        viewSubmissions: List<ViewSubmission>?
     ): App {
         val app = App()
 
@@ -28,10 +28,11 @@ open class SlackApp {
             app.viewSubmission(it.callback) { request, context ->
                 runBlocking { it.onSubmit(request, context) }
             }
-            if (it.onClose != null) { app.viewClosed(it.callback, it.onClose) }
+            if (it.onClose != null) {
+                app.viewClosed(it.callback, it.onClose)
+            }
         }
 
         return app
     }
 }
-

@@ -27,9 +27,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-web")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-    }
+
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
     implementation(kotlin("reflect"))
@@ -43,6 +41,11 @@ dependencies {
 
     implementation("io.ktor:ktor-client-core:1.3.1")
     implementation("io.ktor:ktor-client-apache:1.3.1")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+    testImplementation("junit:junit:4.13")
 }
 
 tasks.withType<Test> {

@@ -18,3 +18,9 @@ jobs:
           BETTER_RSS_MONGO_URI: ${{ secrets.BETTER_RSS_MONGO_URI }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_SIGNING_SECRET: ${{ secrets.SLACK_SIGNING_SECRET }}
+      - name: Upload reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: ${{ github.workspace }}/build/reports
+        if: ${{ always() }}

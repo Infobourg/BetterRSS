@@ -1,6 +1,18 @@
+
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.google.cloud.tools.gradle.appengine.appyaml.AppEngineAppYamlExtension
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("com.google.cloud.tools:appengine-gradle-plugin:2.3.0")
+    }
+}
 
 plugins {
     id("org.springframework.boot") version "2.3.0.RELEASE"
@@ -9,6 +21,8 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
     id("com.diffplug.spotless") version "5.1.0"
 }
+
+apply(plugin = "com.google.cloud.tools.appengine")
 
 group = "org.infobourg"
 version = "0.0.1-SNAPSHOT"
@@ -64,5 +78,14 @@ configure<SpotlessExtension> {
     }
     kotlinGradle {
         ktlint()
+    }
+}
+
+configure<AppEngineAppYamlExtension> {
+    deploy {
+        stopPreviousVersion = true
+        promote = true
+        projectId = "GCLOUD_CONFIG"
+        version = "GCLOUD_CONFIG"
     }
 }

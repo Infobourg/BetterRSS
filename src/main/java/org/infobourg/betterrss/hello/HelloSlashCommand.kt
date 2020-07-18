@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class HelloSlashCommand : SlashCommand(
-        command = "/hello",
-        handler = { _, context ->
-            context.ack("Hello!")
-        }
+    command = "/hello",
+    handler = { _, context ->
+        context.ack("Hello!")
+    }
 )

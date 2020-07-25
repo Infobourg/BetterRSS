@@ -1,7 +1,7 @@
 package org.infobourg.betterrss.add
 
 import org.infobourg.betterrss.models.RssFeed
-import org.infobourg.betterrss.repositories.RssFeedRepository
+import org.infobourg.betterrss.services.RssFeedService
 import org.infobourg.betterrss.slack.ViewSubmission
 import org.springframework.stereotype.Component
 import kotlin.collections.set
@@ -9,7 +9,7 @@ import kotlin.collections.set
 @Component
 class AddFeedView(
         rssParser: RssParser,
-        rssFeedRepository: RssFeedRepository
+        rssFeedService: RssFeedService
 ) : ViewSubmission (
         callbackId = AddFeed.Modal.Id,
         onSubmit = { req, context ->
@@ -37,7 +37,7 @@ class AddFeedView(
             if (errors.isNotEmpty()) {
                 context.ack { it.responseAction("errors").errors(errors) }
             } else {
-                rssFeedRepository.save(RssFeed(idWorkspace = workspaceId, idChannel = conversationId!!, link = url!!))
+                rssFeedService.save(RssFeed(idWorkspace = workspaceId, idChannel = conversationId!!, link = url!!))
                 context.ack()
             }
         }

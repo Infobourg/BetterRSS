@@ -16,4 +16,5 @@ class RssFeedService(private var rssFeedRepository: RssFeedRepository){
     fun findByIdThread(idThread: String): List<RssFeed> = rssFeedRepository.findByIdThread(idThread)
     fun removeByIdRssFeed(idRssFeed: String) = rssFeedRepository.deleteById(idRssFeed)
     fun removeByLink(idRssFeed: String) = rssFeedRepository.deleteByLink(idRssFeed)
+    fun save(feed: RssFeed): RssFeed = rssFeedRepository.save(feed)
 }

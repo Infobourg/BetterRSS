@@ -3,7 +3,6 @@ package org.infobourg.betterrss.services
 import org.infobourg.betterrss.models.RssFeed
 import org.infobourg.betterrss.repositories.RssFeedRepository
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class RssFeedService(private var rssFeedRepository: RssFeedRepository) {

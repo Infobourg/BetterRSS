@@ -18,7 +18,7 @@ fun view(builder: View.() -> Unit): View {
 }
 
 fun block(builder: BlockBuilder.() -> Unit): List<LayoutBlock> {
-    return BlockBuilder().apply(builder).layouts;
+    return BlockBuilder().apply(builder).layouts
 }
 
 fun View.title(builder: ViewTitle.() -> Unit) {

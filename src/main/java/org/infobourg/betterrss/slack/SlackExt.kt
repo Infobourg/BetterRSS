@@ -3,9 +3,11 @@ package org.infobourg.betterrss.slack
 import com.slack.api.model.block.InputBlock
 import com.slack.api.model.block.LayoutBlock
 import com.slack.api.model.block.SectionBlock
+import com.slack.api.model.block.composition.MarkdownTextObject
 import com.slack.api.model.block.composition.OptionObject
 import com.slack.api.model.block.composition.PlainTextObject
 import com.slack.api.model.block.element.ConversationsSelectElement
+import com.slack.api.model.block.element.ImageElement
 import com.slack.api.model.block.element.PlainTextInputElement
 import com.slack.api.model.block.element.StaticSelectElement
 import com.slack.api.model.view.View
@@ -53,12 +55,20 @@ class BlockBuilder {
     }
 }
 
+fun section(builder: SectionBlock.() -> Unit): SectionBlock {
+    return SectionBlock().apply(builder);
+}
+
 fun plainTextInput(builder: PlainTextInputElement.() -> Unit): PlainTextInputElement {
     return PlainTextInputElement().apply(builder)
 }
 
 fun plainText(builder: PlainTextObject.() -> Unit): PlainTextObject {
     return PlainTextObject().apply(builder)
+}
+
+fun markdown(builder: MarkdownTextObject.() -> Unit): MarkdownTextObject {
+    return  MarkdownTextObject().apply(builder)
 }
 
 fun conversationsSelect(builder: ConversationsSelectElement.() -> Unit): ConversationsSelectElement {
@@ -71,4 +81,8 @@ fun staticSelect(builder: StaticSelectElement.() -> Unit): StaticSelectElement {
 
 fun option(build: OptionObject.() -> Unit): OptionObject {
     return OptionObject().apply(build)
+}
+
+fun image(build: ImageElement.() -> Unit): ImageElement {
+    return ImageElement().apply(build)
 }

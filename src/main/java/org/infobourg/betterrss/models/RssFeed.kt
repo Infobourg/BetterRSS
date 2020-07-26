@@ -2,9 +2,8 @@ package org.infobourg.betterrss.models
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import java.time.LocalDateTime
+import java.util.*
 
-//@Document
 @Document(collection = "RssFeed")
 data class RssFeed(
         @Id
@@ -13,6 +12,6 @@ data class RssFeed(
         val idChannel: String="",
         val idThread: String? = null,
         val link: String="",
-        val lastUpdate: LocalDateTime= LocalDateTime.now()
+        val lastUpdate: Date = Date()
 ) {
 }

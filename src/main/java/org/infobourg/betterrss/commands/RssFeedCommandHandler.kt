@@ -13,15 +13,14 @@ import org.infobourg.betterrss.slack.plainText
 import org.infobourg.betterrss.slack.staticSelect
 import org.springframework.stereotype.Component
 
-typealias  Handle = (args: List<String>, request: SlashCommandRequest) -> (SlashCommandContext) -> Response
+typealias Handle = (args: List<String>, request: SlashCommandRequest) -> (SlashCommandContext) -> Response
 
 @Component
 class RssFeedCommandHandler(private val rssFeedService: RssFeedService) : CommandHandler {
 
-
     override fun handleCommand(request: SlashCommandRequest): (SlashCommandContext) -> Response {
         val args = request.payload?.text?.split(" ") ?: listOf()
-        if (args.isEmpty()) return this.help(args, request);
+        if (args.isEmpty()) return this.help(args, request)
         val cmd = commandHandle.find { c -> c.commandType.command == args[0] }
         return if (cmd != null) cmd.handle(args, request) else this.help(args, request)
     }
@@ -29,10 +28,12 @@ class RssFeedCommandHandler(private val rssFeedService: RssFeedService) : Comman
     private val list: Handle = list@{ _: List<String>, _: SlashCommandRequest ->
         val rssFeed = rssFeedService.findAll()
         return@list { context: SlashCommandContext ->
-            context.ack(block {
-                section { text = plainText { text = "List of rss flux" } }
-                section { text = plainText { text = rssFeed.joinToString("\n") { rss -> "- ${rss.id} : ${rss.link}" } } }
-            })
+            context.ack(
+                block {
+                    section { text = plainText { text = "List of rss flux" } }
+                    section { text = plainText { text = rssFeed.joinToString("\n") { rss -> "- ${rss.id} : ${rss.link}" } } }
+                }
+            )
         }
     }
 
@@ -43,7 +44,7 @@ class RssFeedCommandHandler(private val rssFeedService: RssFeedService) : Comman
                 context.ack(removeSelectionBlock(rssFeeds))
             }
         } else {
-            val arg = args[1];
+            val arg = args[1]
             if (ObjectId.isValid(arg)) {
                 println("$arg is valid")
                 // If is an id
@@ -65,8 +66,8 @@ class RssFeedCommandHandler(private val rssFeedService: RssFeedService) : Comman
     }
 
     private val commandHandle: Array<CommandHandle> = arrayOf(
-            CommandHandle(commandType = CommandEnum.LIST, handle = this.list),
-            CommandHandle(commandType = CommandEnum.REMOVE, handle = this.remove)
+        CommandHandle(commandType = CommandEnum.LIST, handle = this.list),
+        CommandHandle(commandType = CommandEnum.REMOVE, handle = this.remove)
     )
 
     private fun removeSelectionBlock(rssFeeds: List<RssFeed>): List<LayoutBlock> {
@@ -83,7 +84,6 @@ class RssFeedCommandHandler(private val rssFeedService: RssFeedService) : Comman
                             value = rss.id
                         }
                     }
-
                 }
             }
         }
@@ -91,6 +91,6 @@ class RssFeedCommandHandler(private val rssFeedService: RssFeedService) : Comman
 }
 
 data class CommandHandle(
-        val commandType: CommandEnum,
-        val handle: (List<String>, SlashCommandRequest) -> (SlashCommandContext) -> Response
+    val commandType: CommandEnum,
+    val handle: (List<String>, SlashCommandRequest) -> (SlashCommandContext) -> Response
 )

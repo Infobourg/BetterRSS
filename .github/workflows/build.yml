@@ -1,0 +1,35 @@
+name: CI
+
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [11.0.7, 11]
+    name: Build with Java ${{ matrix.java }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+          java-package: jdk
+          architecture: x64
+      - name: Build and check
+        run: ./gradlew spotlessCheck build
+        env:
+          BETTER_RSS_MONGO_URI: ${{ secrets.BETTER_RSS_MONGO_URI }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_SIGNING_SECRET: ${{ secrets.SLACK_SIGNING_SECRET }}
+      - name: Upload reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: ${{ github.workspace }}/build/reports
+        if: ${{ always() }}

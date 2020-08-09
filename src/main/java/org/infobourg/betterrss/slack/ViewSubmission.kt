@@ -7,11 +7,9 @@ import com.slack.api.bolt.request.builtin.ViewSubmissionRequest
 import com.slack.api.bolt.response.Response
 
 abstract class ViewSubmission(
-        callbackId: String,
-        val onSubmit: suspend (ViewSubmissionRequest, ViewSubmissionContext) -> Response,
-        val onClose: ((ViewClosedRequest, DefaultContext) -> Response)? = null
+    callbackId: String,
+    val onSubmit: suspend (ViewSubmissionRequest, ViewSubmissionContext) -> Response,
+    val onClose: ((ViewClosedRequest, DefaultContext) -> Response)? = null
 ) {
-
     val callback: String = callbackId
-
 }
